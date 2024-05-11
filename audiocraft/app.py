@@ -26,7 +26,18 @@ def main():
 
     with st.expander("See explanation"):
         st.write("This is a  music generation app built using Meta's Audiocraft Music Gen Model. Based onyour  natural laguage description , it can generate a maximum of 20 seconds music for you. ") 
-        text_area = st.area("Enter your description so that we can create a music for you.....")
+    
+    text_area = st.area("Enter your description so that we can create a music for you.....")
+    time_slider = st.slider("Select time duration (in seconds)", 5, 10, 30)
+
+
+    if text_area and time_slider: 
+        st.json(
+            {
+                "Your description" : text_area, 
+                "Selected Time (In Seconds)" : time_slider
+            }
+        ) 
 
 
 if __name__ == "__main__": 
