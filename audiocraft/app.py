@@ -15,7 +15,6 @@ import base64
 
 
 
-
 # Ensure matplotlib does not open a window unnecessarily
 plt.switch_backend('Agg')
 
