@@ -11,6 +11,9 @@ import librosa
 import librosa.display
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
+import base64
+
+
 
 
 # Ensure matplotlib does not open a window unnecessarily
@@ -50,6 +53,15 @@ st.set_page_config(page_title="Text to Music Generation",
                     page_icon=":musical_note:")
 
 
+page_bg_img = """
+<style>
+body {
+background-image: url('https://images.unsplash.com/photo-1542281286-9e0a16bb7366');
+background-size: cover;
+}
+</style>
+"""
+st.markdown(page_bg_img, unsafe_allow_html=True)
 
 
 
