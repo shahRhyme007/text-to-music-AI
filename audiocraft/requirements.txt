@@ -1,1 +1,10 @@
 soundfile>=0.10.3
+streamlit
+torch
+torchaudio
+numpy
+soundfile
+librosa
+matplotlib
+pandas
+base64
