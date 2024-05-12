@@ -7,5 +7,4 @@ soundfile
 librosa
 matplotlib
 pandas
-av
 
