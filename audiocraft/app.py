@@ -7,6 +7,14 @@ import numpy as np
 import base64  # it is used to download the music that is generated
 import time 
 import pandas as pd  
+import librosa
+import librosa.display
+import matplotlib.pyplot as plt
+from matplotlib.figure import Figure
+
+
+# Ensure matplotlib does not open a window unnecessarily
+plt.switch_backend('Agg')
 
 # Function used to load the model (musicgen-melody is a powerful model)
 @st.cache_resource
@@ -76,6 +84,31 @@ def binFileDownload(bin_file, file_label = 'File'):
     return href
 
 
+# Audio visualization starts from here
+def display_waveform(path, sr=32000):
+    # Load the audio file
+    audio, sr = librosa.load(path, sr=sr)
+    # Plot waveform
+    fig, ax = plt.subplots(figsize=(10, 3))
+    librosa.display.waveshow(audio, sr=sr, ax=ax)
+    ax.set_title('Waveform')
+    st.pyplot(fig)
+
+
+
+def display_spectrogram(path, sr=32000):
+    # Load the audio file
+    audio, sr = librosa.load(path, sr=sr)
+    # Generate a Spectrogram
+    X = librosa.stft(audio)
+    Xdb = librosa.amplitude_to_db(abs(X))
+    fig, ax = plt.subplots(figsize=(10, 4))
+    img = librosa.display.specshow(Xdb, sr=sr, x_axis='time', y_axis='hz', ax=ax)
+    fig.colorbar(img, ax=ax, format="%+2.0f dB")
+    ax.set_title('Spectrogram')
+    st.pyplot(fig)
+
+
 
 def main(): 
     st.title("Text to Music Generation")
@@ -83,29 +116,40 @@ def main():
         st.write("This is a music generation app built using Meta's Audiocraft Music Gen Model. Based on your natural language description, it can generate a maximum of 20 seconds of music for you.")
     
     text_area = st.text_area("Enter your description so that we can create music for you.....")
-    time_slider = st.slider("Select time duration (in seconds)", 5, 30, 10)
+    time_slider = st.slider("Select time duration (in seconds)", 2, 5, 10)
 
-    if text_area and time_slider: 
-        # Create a dataframe for display
-        data = {
-            "Description": [text_area],
-            "Selected Time (In Seconds)": [time_slider]
-        }
-        df = pd.DataFrame(data)
-        st.table(df)
+    if st.button('Start Generating'):
+        if text_area and time_slider: 
+            # Create a dataframe for display
+            data = {
+                "Description": [text_area],
+                "Selected Time (In Seconds)": [time_slider]
+            }
+            df = pd.DataFrame(data)
+            st.table(df)
 
-        st.subheader("Generated Music")
-        progress_text = st.empty()  # Placeholder for progress text
-        my_bar = st.progress(0)
-        progress_text.text("Preparing to generate music...")
-        music_tensors = generate_music_tensors(text_area, time_slider, my_bar, progress_text)
-        print("Music Tensors : ", music_tensors)
-        save_audio(music_tensors, my_bar, progress_text)
-        audio_filepath = "audio_output/audio_0.wav"
-        with open(audio_filepath, 'rb') as audio_file:
-            audio_bytes = audio_file.read()
-        st.audio(audio_bytes)
-        st.markdown(binFileDownload(audio_filepath, 'Audio'), unsafe_allow_html=True)
+            st.subheader("Generated Music")
+            progress_text = st.empty()  # Placeholder for progress text
+            my_bar = st.progress(0)
+            progress_text.text("Preparing to generate music...")
+            music_tensors = generate_music_tensors(text_area, time_slider, my_bar, progress_text)
+            print("Music Tensors : ", music_tensors)
+            save_audio(music_tensors, my_bar, progress_text)
+            audio_filepath = "audio_output/audio_0.wav"
+            with open(audio_filepath, 'rb') as audio_file:
+                audio_bytes = audio_file.read()
+            st.audio(audio_bytes)
+            st.markdown(binFileDownload(audio_filepath, 'Audio'), unsafe_allow_html=True)
+
+            # Display audio visualizations
+            display_waveform(audio_filepath)
+            display_spectrogram(audio_filepath)
+
+
+
+    # Reset the app or clear results
+    if st.button('Reset'):
+        st.experimental_rerun()
 
 if __name__ == "__main__": 
     main()
