@@ -7,4 +7,5 @@ soundfile
 librosa
 matplotlib
 pandas
-
+av
+julius
