@@ -39,7 +39,7 @@ def load_model(model_name="facebook/musicgen-melody"):
             model = AudioGen.get_pretrained(model_name)
         else:
             model = MusicGen.get_pretrained(model_name)  # fallback
-        return model
+    return model
     except Exception as e:
         st.error(f"Error loading model: {e}")
         # Fallback to basic model
@@ -471,8 +471,8 @@ def main():
             else:
                 # Standard visualizations
                 st.subheader("▣ Audio Analysis")
-                display_waveform(audio_filepath)
-                display_spectrogram(audio_filepath)
+            display_waveform(audio_filepath)
+            display_spectrogram(audio_filepath)
 
 
 
