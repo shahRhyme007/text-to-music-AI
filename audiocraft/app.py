@@ -11,7 +11,6 @@ import librosa
 import librosa.display
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
-import base64
 import tempfile
 from typing import Dict, List, Optional, Tuple, Any
 
@@ -39,7 +38,7 @@ def load_model(model_name="facebook/musicgen-melody"):
             model = AudioGen.get_pretrained(model_name)
         else:
             model = MusicGen.get_pretrained(model_name)  # fallback
-    return model
+        return model
     except Exception as e:
         st.error(f"Error loading model: {e}")
         # Fallback to basic model
