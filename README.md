@@ -268,7 +268,7 @@ We welcome contributions! Please see our contributing guidelines:
 **Shah Rhyme** - *AI Engineer & Full-Stack Developer*
 - Portfolio: [My Website](https://shahrhyme.vercel.app/)
 - LinkedIn: [Shah Arifur Rahman Rhyme](https://www.linkedin.com/in/shah-rhyme)
-- Email: [](rhymeshah.uta@gmail.com)
+- Email: [👉](rhymeshah.uta@gmail.com)
 - GitHub: [@shahRhyme007](https://github.com/shahRhyme007)
 
 ---
